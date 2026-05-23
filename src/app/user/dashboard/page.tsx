@@ -139,7 +139,7 @@ export default function UserDashboard() {
     notes: "",
     
     // New handwritten fields
-    monthTargetLevel: "5%",
+    monthTargetLevel: "10% (Star Associate)",
     monthTargetJoining: 1,
     monthTargetTeam: "",
     monthTargetHomeMeeting: "",
@@ -363,17 +363,21 @@ export default function UserDashboard() {
                 onChange={handleChange}
                 className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green cursor-pointer"
               >
-                <option value="5%">5% (Distributor)</option>
-                <option value="8%">8% (Senior Distributor)</option>
-                <option value="11%">11% (Assistant Supervisor)</option>
-                <option value="15%">15% (Supervisor)</option>
-                <option value="Bronze Director">Bronze Director</option>
-                <option value="Silver Director">Silver Director</option>
-                <option value="Gold Director">Gold Director</option>
-                <option value="Ruby Director">Ruby Director</option>
-                <option value="Diamond Director">Diamond Director</option>
-                <option value="Chairman Star">Chairman Star</option>
-                <option value="Crown President">Crown President</option>
+                <option value="10% (Star Associate)">10% (Star Associate)</option>
+                <option value="20% (Executive Star Associate)">20% (Executive Star Associate)</option>
+                <option value="25% (Senior Star Associate)">25% (Senior Star Associate)</option>
+                <option value="30% (Super Star Associate)">30% (Super Star Associate)</option>
+                <option value="Silver Star Associates">Silver Star Associates</option>
+                <option value="Gold Star Associates">Gold Star Associates</option>
+                <option value="Ruby Star Associates">Ruby Star Associates</option>
+                <option value="Diamond Star Associates">Diamond Star Associates</option>
+                <option value="Chairman Star Associates">Chairman Star Associates</option>
+                <option value="Ambassador Star Associates">Ambassador Star Associates</option>
+                <option value="Crown Ambassador Star Associates">Crown Ambassador Star Associates</option>
+                <option value="President Star Associates">President Star Associates</option>
+                <option value="Crown President Star Associates">Crown President Star Associates</option>
+                <option value="Director Crown President">Director Crown President</option>
+                <option value="Kohinoor Crown President">Kohinoor Crown President</option>
               </select>
             </div>
             <div className="flex flex-col gap-1">
