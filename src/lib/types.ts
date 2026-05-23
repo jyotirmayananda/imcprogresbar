@@ -27,6 +27,24 @@ export interface DailyReport {
   challenges: string;
   notes: string;
   createdAt: string;
+  
+  // New IMC fields:
+  selectedUserId?: string;
+  monthTargetLevel?: string;
+  monthTargetJoining?: number;
+  monthTargetTeam?: number;
+  monthTargetHomeMeeting?: number;
+  monthTargetIbm?: number;
+  prospectsListedToday?: number;
+  phoneShowsToday?: number;
+  meetingPlace?: string;
+  meetingType?: string; // 'IBM' | 'One to One' | 'Plan show' | 'Home meeting'
+  customersConnected?: number;
+  associatesConnected?: number;
+  bookReadToday?: string;
+  chatWithSurendraVats?: boolean;
+  workDoneOnTime?: boolean;
+  workDoneOnTimeReason?: string;
 }
 
 export interface Session {
