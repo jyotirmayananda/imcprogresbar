@@ -25,11 +25,19 @@ Deno.serve(async (req) => {
       );
     }
 
+    const normalizedEmail = String(email).trim().toLowerCase();
+    if (!normalizedEmail.includes("@")) {
+      return jsonResponse(
+        { success: false, error: "email must be a valid address (e.g. user@example.com)" },
+        400,
+      );
+    }
+
     const supabaseAdmin = createAdminClient();
 
     const { data: authData, error: authError } =
       await supabaseAdmin.auth.admin.createUser({
-        email,
+        email: normalizedEmail,
         password,
         email_confirm: true,
         user_metadata: {
@@ -52,7 +60,7 @@ Deno.serve(async (req) => {
       {
         id: authUser.id,
         name,
-        email,
+        email: normalizedEmail,
         password: "auth_managed",
         role: role || "user",
         team: team || "Global",

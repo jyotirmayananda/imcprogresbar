@@ -6,11 +6,44 @@ import { getItem, setItem, removeItem } from '@/lib/localStorage';
 import { useRouter, usePathname } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 
+export type LoginResult = { success: true } | { success: false; error: string };
+
 interface AuthContextType {
   user: Omit<User, 'password'> | null;
-  login: (email: string, password?: string) => Promise<boolean>;
+  login: (email: string, password?: string) => Promise<LoginResult>;
   logout: () => void;
   isLoading: boolean;
+}
+
+function normalizeLoginEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
+function profileFromAuthUser(
+  authUser: { id: string; email?: string; created_at?: string; user_metadata?: Record<string, unknown> },
+  row?: Record<string, unknown> | null,
+): Omit<User, 'password'> {
+  if (row) {
+    return {
+      id: String(row.id),
+      name: String(row.name),
+      email: String(row.email),
+      role: row.role as User['role'],
+      team: String(row.team ?? 'Global'),
+      avatarColor: String(row.avatar_color ?? '#22C55E'),
+      createdAt: String(row.created_at ?? new Date().toISOString()),
+    };
+  }
+  const meta = authUser.user_metadata ?? {};
+  return {
+    id: authUser.id,
+    name: String(meta.name ?? authUser.email?.split('@')[0] ?? 'User'),
+    email: authUser.email ?? '',
+    role: (meta.role as User['role']) || 'user',
+    team: String(meta.team ?? 'Global'),
+    avatarColor: String(meta.avatarColor ?? '#22C55E'),
+    createdAt: authUser.created_at ?? new Date().toISOString(),
+  };
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,12 +67,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   }, [pathname, router]);
 
-  const login = async (email: string, password?: string) => {
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'ambikaprsahu1105';
+  const login = async (email: string, password?: string): Promise<LoginResult> => {
+    const normalizedEmail = normalizeLoginEmail(email);
+    const adminEmail = normalizeLoginEmail(
+      process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'ambikaprsahu1105',
+    );
     const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '9437622297';
 
-    // 1. Admin check first (dynamically configured via env, with local backup)
-    if (email === adminEmail && password === adminPassword) {
+    if (!password) {
+      return { success: false, error: 'Password is required.' };
+    }
+
+    // 1. Admin (env-based, not Supabase Auth)
+    if (normalizedEmail === adminEmail && password === adminPassword) {
       const adminUser: Omit<User, 'password'> = {
         id: 'admin-1',
         name: 'Super Admin',
@@ -47,91 +87,80 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         role: 'admin',
         team: 'Global',
         avatarColor: '#22C55E',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
       const session: Session = { user: adminUser, token: 'mock-admin-token' };
       setItem('ag_session', session);
       setUser(adminUser);
-      return true;
+      return { success: true };
     }
 
-    // 2. Query Supabase if configured
+    if (!normalizedEmail.includes('@')) {
+      return {
+        success: false,
+        error: 'Use the full email address from admin (e.g. user@example.com), not username only.',
+      };
+    }
+
+    // 2. Supabase Auth (users created by admin)
     if (isSupabaseConfigured) {
       try {
-        // A. Try official Supabase Auth first
         const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-          email,
-          password: password || '',
+          email: normalizedEmail,
+          password,
         });
 
-        if (authData.user && !authError) {
-          // Fetch their custom profile from public.users
-          const { data: foundUser, error: dbError } = await supabase
+        if (authError) {
+          return {
+            success: false,
+            error: authError.message.includes('Invalid login credentials')
+              ? 'Wrong email or password. Use the exact email and password shown when the admin created your account.'
+              : authError.message,
+          };
+        }
+
+        if (authData.user) {
+          const { data: foundUser } = await supabase
             .from('users')
             .select('*')
             .eq('id', authData.user.id)
-            .single();
+            .maybeSingle();
 
-          if (foundUser && !dbError) {
-            const userObj: Omit<User, 'password'> = {
-              id: foundUser.id,
-              name: foundUser.name,
-              email: foundUser.email,
-              role: foundUser.role as any,
-              team: foundUser.team,
-              avatarColor: foundUser.avatar_color,
-              createdAt: foundUser.created_at
-            };
-
-            const session: Session = { user: userObj, token: authData.session?.access_token || 'supabase-token-' + foundUser.id };
-            setItem('ag_session', session);
-            setUser(userObj);
-            return true;
-          }
-        }
-
-        // B. Fallback: Query the public.users table directly (for legacy/custom accounts)
-        const { data: foundUser, error: tableError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', email)
-          .eq('password', password)
-          .single();
-
-        if (foundUser && !tableError) {
-          const userObj: Omit<User, 'password'> = {
-            id: foundUser.id,
-            name: foundUser.name,
-            email: foundUser.email,
-            role: foundUser.role as any,
-            team: foundUser.team,
-            avatarColor: foundUser.avatar_color,
-            createdAt: foundUser.created_at
+          const userObj = profileFromAuthUser(authData.user, foundUser);
+          const session: Session = {
+            user: userObj,
+            token: authData.session?.access_token || `supabase-token-${userObj.id}`,
           };
-
-          const session: Session = { user: userObj, token: 'supabase-token-' + foundUser.id };
           setItem('ag_session', session);
           setUser(userObj);
-          return true;
+          return { success: true };
         }
       } catch (err) {
         console.error('Failed to log in via Supabase:', err);
+        return { success: false, error: 'Could not reach Supabase. Try again later.' };
       }
     }
 
-    // 3. Fallback: Check local users in localStorage
+    // 3. Offline / local users only
     const users = getItem<User[]>('ag_users') || [];
-    const foundUser = users.find(u => u.email === email && u.password === password);
-    
+    const foundUser = users.find(
+      (u) => normalizeLoginEmail(u.email) === normalizedEmail && u.password === password,
+    );
+
     if (foundUser) {
       const { password: _p, ...userWithoutPassword } = foundUser;
       const session: Session = { user: userWithoutPassword, token: 'mock-user-token' };
       setItem('ag_session', session);
       setUser(userWithoutPassword);
-      return true;
+      return { success: true };
     }
 
-    return false;
+    return {
+      success: false,
+      error: isSupabaseConfigured
+        ? 'Invalid email or password.'
+        : 'Supabase is not configured on this site. Contact admin.',
+    };
   };
 
   const logout = () => {

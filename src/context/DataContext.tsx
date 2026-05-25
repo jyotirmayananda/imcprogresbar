@@ -8,10 +8,14 @@ import { getAdminFunctionSecret } from '@/lib/adminSecret';
 import { toReportPayload } from '@/lib/reportPayload';
 
 
+export type AddUserResult =
+  | { success: true; user: Omit<User, 'password'>; loginEmail: string; loginPassword: string }
+  | { success: false; error: string };
+
 interface DataContextType {
   users: User[];
   reports: DailyReport[];
-  addUser: (user: User) => void;
+  addUser: (user: User) => Promise<AddUserResult>;
   deleteUser: (userId: string) => Promise<void>;
   addReport: (report: DailyReport) => void;
   getReports: (userId?: string, dateRange?: { start: string; end: string }) => DailyReport[];
@@ -123,54 +127,91 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     loadData();
   }, []);
 
-  const addUser = async (user: User) => {
-    let localUser = { ...user };
+  const addUser = async (user: User): Promise<AddUserResult> => {
+    const loginEmail = user.email.trim().toLowerCase();
+    const loginPassword = user.password || 'password123';
+
+    if (!loginEmail.includes('@')) {
+      return {
+        success: false,
+        error: 'Enter a valid email (e.g. rep@company.com). Users log in with this email.',
+      };
+    }
+
+    let localUser: Omit<User, 'password'> = {
+      id: user.id,
+      name: user.name,
+      email: loginEmail,
+      role: user.role,
+      team: user.team,
+      avatarColor: user.avatarColor,
+      createdAt: user.createdAt,
+    };
 
     if (isSupabaseConfigured) {
+      const adminSecret = getAdminFunctionSecret();
+      if (!adminSecret) {
+        return {
+          success: false,
+          error:
+            'Admin secret missing. Set NEXT_PUBLIC_ADMIN_FUNCTION_SECRET (or NEXT_PUBLIC_ADMIN_PASSWORD) in Netlify env, and ADMIN_SECRET in Supabase Edge Functions.',
+        };
+      }
+
       try {
-        // Invoke the Deno Edge Function to securely create the user
-        const adminSecret = getAdminFunctionSecret();
         const { data, error } = await supabase.functions.invoke('create-user', {
           body: {
             name: user.name,
-            email: user.email,
-            password: user.password || 'password123',
+            email: loginEmail,
+            password: loginPassword,
             role: user.role,
             team: user.team,
-            avatarColor: user.avatarColor
+            avatarColor: user.avatarColor,
           },
-          headers: adminSecret ? { 'x-admin-secret': adminSecret } : undefined,
+          headers: { 'x-admin-secret': adminSecret },
         });
 
         if (error) {
-          // Fallback: If edge function fails (e.g. not deployed yet), insert directly
-          console.warn('Edge function failed or not found, falling back to direct table insert:', error);
-          const { error: dbError } = await supabase
-            .from('users')
-            .insert([{
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              password: user.password || 'password123',
-              role: user.role,
-              team: user.team,
-              avatar_color: user.avatarColor,
-              created_at: user.createdAt
-            }]);
-          if (dbError) throw dbError;
-        } else if (data && data.success && data.user) {
-          console.log('User created successfully via Edge Function:', data.user);
-          // Override the local user ID with the real Auth UUID returned from Edge Function
-          localUser.id = data.user.id;
+          return {
+            success: false,
+            error: error.message || 'create-user edge function failed.',
+          };
         }
-      } catch (err: any) {
-        console.error('Failed to sync new user to Supabase:', err?.message || err);
+
+        if (!data?.success || !data.user) {
+          return {
+            success: false,
+            error:
+              data?.error ||
+              'Could not create user in Supabase Auth. Check ADMIN_SECRET matches Netlify env.',
+          };
+        }
+
+        localUser = {
+          id: data.user.id,
+          name: data.user.name ?? user.name,
+          email: data.user.email ?? loginEmail,
+          role: (data.user.role as User['role']) || user.role,
+          team: data.user.team ?? user.team,
+          avatarColor: data.user.avatarColor ?? user.avatarColor,
+          createdAt: user.createdAt,
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return { success: false, error: message };
       }
     }
 
-    const newUsers = [...users, localUser];
+    const newUsers = [...users, { ...localUser, password: loginPassword } as User];
     setUsers(newUsers);
     setItem('ag_users', newUsers);
+
+    return {
+      success: true,
+      user: localUser,
+      loginEmail,
+      loginPassword,
+    };
   };
 
   const deleteUser = async (userId: string) => {
