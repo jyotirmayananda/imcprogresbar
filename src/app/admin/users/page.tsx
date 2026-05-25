@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Plus, Users as UsersIcon, Trash2 } from "lucide-react";
 
 export default function AdminUsers() {
-  const { users, addUser } = useData();
+  const { users, addUser, deleteUser } = useData();
   const [isAdding, setIsAdding] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -64,12 +64,12 @@ export default function AdminUsers() {
               <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-mint" />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-slate-600">Email / Username</label>
-              <input type="text" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-mint" />
+              <label className="text-sm text-slate-600">Email (for login)</label>
+              <input type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required placeholder="user@example.com" className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-mint" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-sm text-slate-600">Password</label>
-              <input type="text" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} required className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-mint" />
+              <input type="password" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} required className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-mint" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-sm text-slate-600">Team / Territory</label>
@@ -108,7 +108,11 @@ export default function AdminUsers() {
               >
                 {u.name.charAt(0).toUpperCase()}
               </div>
-              <button className="text-red-400 hover:bg-red-400/10 p-2 rounded-lg transition-colors" title="Delete functionality not requested, visual only">
+              <button 
+                onClick={() => deleteUser(u.id)}
+                className="text-red-400 hover:bg-red-400/10 p-2 rounded-lg transition-colors" 
+                title="Delete User"
+              >
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>

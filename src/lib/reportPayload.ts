@@ -1,0 +1,40 @@
+import { DailyReport } from '@/lib/types';
+
+/** Maps app report shape to edge function / DB snake_case payload */
+export function toReportPayload(report: DailyReport) {
+  return {
+    id: report.id,
+    date: report.date,
+    productsSold: report.productsSold,
+    totalSalesValue: report.totalSalesValue,
+    startTime: report.startTime,
+    endTime: report.endTime,
+    locationsVisited: report.locationsVisited,
+    customerMeetings: report.customerMeetings,
+    pendingFollowUps: report.pendingFollowUps,
+    dealsClosed: report.dealsClosed,
+    dealsDetails: report.dealsDetails,
+    challenges: report.challenges,
+    notes: report.notes,
+    createdAt: report.createdAt,
+    monthTargetLevel: report.monthTargetLevel,
+    monthTargetJoining: report.monthTargetJoining,
+    monthTargetTeam: report.monthTargetTeam,
+    monthTargetHomeMeeting: report.monthTargetHomeMeeting,
+    monthTargetIbm: report.monthTargetIbm,
+    personalJoiningToday: report.personalJoiningToday,
+    teamJoiningToday: report.teamJoiningToday,
+    productsSoldList: report.productsSoldList,
+    planShowsToday: report.planShowsToday,
+    prospectsListedToday: report.prospectsListedToday,
+    phoneShowsToday: report.phoneShowsToday,
+    meetingPlace: report.meetingPlace,
+    meetingType: report.meetingType,
+    customersConnected: report.customersConnected,
+    associatesConnected: report.associatesConnected,
+    bookReadToday: report.bookReadToday,
+    chatWithSurendraVats: report.chatWithSurendraVats,
+    workDoneOnTime: report.workDoneOnTime,
+    workDoneOnTimeReason: report.workDoneOnTimeReason,
+  };
+}

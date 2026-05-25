@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "jetro": {
+      "type": "stdio",
+      "command": "C:\\Users\\subha\\.jetro\\runtime\\node-win32-x64.exe",
+      "args": [
+        "C:\\Users\\subha\\.jetro\\mcp-server\\index.js"
+      ],
+      "env": {
+        "JET_WORKSPACE": "e:\\jyoti\\baba\\antigravity",
+        "JET_API_URL": "https://api.jetro.ai",
+        "PATH": "C:\\Users\\subha\\.jetro\\runtime;C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin;C:\\Program Files\\Python312\\Scripts\\;C:\\Program Files\\Python312\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\dotnet\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR;C:\\Program Files\\MongoDB\\mongosh-2.1.5-win32-x64\\bin;C:\\Users\\subha\\Downloads\\stripe_1.19.4_windows_x86_64\\;C:\\MinGW\\bin;C:\\Program Files\\Git\\cmd;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\build-tools;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\emulator;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\platforms;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\platform-tools;C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin;C:\\Program Files\\Common Files\\Autodesk Shared\\;C:\\Program Files\\starship\\bin\\;C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin;C:\\Program Files\\nodejs\\;C:\\Program Files\\MongoDB\\Tools\\100\\bin;;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;C:\\Users\\subha\\.local\\bin;C:\\Users\\subha\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\subha\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\msys64\\ucrt64\\bin;C:\\Users\\subha\\AppData\\Local\\Programs\\oh-my-posh\\bin;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.6\\bin;C:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2023.3.6\\bin;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\build-tools;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\emulator;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\platforms;C:\\Users\\subha\\AppData\\Local\\Android\\Sdk\\platform-tools;C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin;C:\\Users\\subha\\AppData\\Roaming\\npm;C:\\Users\\subha\\.dotnet\\tools;C:\\Users\\subha\\AppData\\Local\\Programs\\Antigravity\\bin;C:\\Users\\subha\\AppData\\Local\\Programs\\Ollama;C:\\Users\\subha\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin;C:\\Users\\subha\\AppData\\Local\\Programs\\Antigravity IDE\\bin"
+      }
+    }
+  }
+}

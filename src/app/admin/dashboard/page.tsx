@@ -171,19 +171,27 @@ export default function AdminDashboard() {
       <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <motion.div variants={itemVariants} className="glass p-6 rounded-2xl lg:col-span-2">
           <h3 className="font-heading font-bold text-lg mb-6 text-ag-mint" style={{ color: '#00F5D4' }}>Sales Trend Over Time</h3>
-          <LineChart data={lineData} xKey="date" yKey="sales" color="#00F5D4" />
+          {lineData.length > 0 ? (
+            <LineChart data={lineData} xKey="date" yKey="sales" color="#00F5D4" />
+          ) : (
+            <div className="flex h-64 items-center justify-center text-slate-400">No data available</div>
+          )}
         </motion.div>
         <motion.div variants={itemVariants} className="glass p-6 rounded-2xl">
           <h3 className="font-heading font-bold text-lg mb-6 text-ag-green" style={{ color: '#22C55E' }}>Revenue by Member</h3>
           {pieData.length > 0 ? (
              <PieChart data={pieData} nameKey="name" valueKey="sales" />
           ) : (
-            <div className="flex h-full items-center justify-center text-slate-400 pb-12">No data available</div>
+            <div className="flex h-64 items-center justify-center text-slate-400">No data available</div>
           )}
         </motion.div>
         <motion.div variants={itemVariants} className="glass p-6 rounded-2xl lg:col-span-3">
           <h3 className="font-heading font-bold text-lg mb-6 text-slate-900">Daily Products Sold</h3>
-          <BarChart data={barData} xKey="date" yKey="products" color="#22C55E" />
+          {barData.length > 0 ? (
+            <BarChart data={barData} xKey="date" yKey="products" color="#22C55E" />
+          ) : (
+            <div className="flex h-64 items-center justify-center text-slate-400">No data available</div>
+          )}
         </motion.div>
       </motion.div>
 
