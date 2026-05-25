@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (email: string, password?: string): Promise<LoginResult> => {
     const normalizedEmail = normalizeLoginEmail(email);
     const adminEmail = normalizeLoginEmail(
-      process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'ambikaprsahu1105',
+      process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'sahuambika05@gmail.com',
     );
     const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '9437622297';
 
