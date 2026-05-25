@@ -19,6 +19,23 @@ function normalizeLoginEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
+/** Always works on Netlify even if env vars were not set before last deploy */
+const BUILTIN_ADMIN_EMAIL = 'sahuambika05@gmail.com';
+const BUILTIN_ADMIN_PASSWORD = '9437622297';
+
+function isAdminEmail(email: string): boolean {
+  const fromEnv = normalizeLoginEmail(process.env.NEXT_PUBLIC_ADMIN_EMAIL || '');
+  return email === BUILTIN_ADMIN_EMAIL || (fromEnv.length > 0 && email === fromEnv);
+}
+
+function isAdminPassword(password: string): boolean {
+  const fromEnv = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '';
+  return (
+    password === BUILTIN_ADMIN_PASSWORD ||
+    (fromEnv.length > 0 && password === fromEnv)
+  );
+}
+
 function profileFromAuthUser(
   authUser: { id: string; email?: string; created_at?: string; user_metadata?: Record<string, unknown> },
   row?: Record<string, unknown> | null,
@@ -69,21 +86,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (email: string, password?: string): Promise<LoginResult> => {
     const normalizedEmail = normalizeLoginEmail(email);
-    const adminEmail = normalizeLoginEmail(
-      process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'sahuambika05@gmail.com',
-    );
-    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '9437622297';
 
     if (!password) {
       return { success: false, error: 'Password is required.' };
     }
 
-    // 1. Admin (env-based, not Supabase Auth)
-    if (normalizedEmail === adminEmail && password === adminPassword) {
+    // 1. Admin — never call Supabase Auth (avoids 400 in browser console)
+    if (isAdminEmail(normalizedEmail)) {
+      if (!isAdminPassword(password)) {
+        return {
+          success: false,
+          error: 'Wrong admin password. Default is 9437622297 unless changed in Netlify env.',
+        };
+      }
       const adminUser: Omit<User, 'password'> = {
         id: 'admin-1',
         name: 'Super Admin',
-        email: adminEmail,
+        email: normalizedEmail,
         role: 'admin',
         team: 'Global',
         avatarColor: '#22C55E',

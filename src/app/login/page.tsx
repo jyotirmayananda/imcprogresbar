@@ -40,6 +40,9 @@ export default function LoginPage() {
             IMC <span className="text-ag-green">Team Progress</span>
           </h1>
           <p className="text-slate-500">Sales Team Management</p>
+          <p className="text-xs text-slate-400 mt-2">
+            Admin: sahuambika05@gmail.com — sales reps use the email from their admin.
+          </p>
         </div>
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
