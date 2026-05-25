@@ -5,6 +5,10 @@ import { User, Session } from '@/lib/types';
 import { getItem, setItem, removeItem } from '@/lib/localStorage';
 import { useRouter, usePathname } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
+import {
+  BUILTIN_ADMIN_EMAIL,
+  BUILTIN_ADMIN_PASSWORD,
+} from '@/lib/adminCredentials';
 
 export type LoginResult = { success: true } | { success: false; error: string };
 
@@ -18,10 +22,6 @@ interface AuthContextType {
 function normalizeLoginEmail(email: string): string {
   return email.trim().toLowerCase();
 }
-
-/** Always works on Netlify even if env vars were not set before last deploy */
-const BUILTIN_ADMIN_EMAIL = 'sahuambika05@gmail.com';
-const BUILTIN_ADMIN_PASSWORD = '9437622297';
 
 function isAdminEmail(email: string): boolean {
   const fromEnv = normalizeLoginEmail(process.env.NEXT_PUBLIC_ADMIN_EMAIL || '');

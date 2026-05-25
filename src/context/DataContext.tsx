@@ -171,29 +171,58 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           headers: { 'x-admin-secret': adminSecret },
         });
 
+        const payload =
+          data && typeof data === 'object'
+            ? (data as { success?: boolean; error?: string; hint?: string; user?: unknown })
+            : null;
+
         if (error) {
-          return {
-            success: false,
-            error: error.message || 'create-user edge function failed.',
-          };
+          let message = error.message || 'create-user edge function failed.';
+          const response = (error as { context?: Response }).context;
+          if (response) {
+            try {
+              const body = (await response.json()) as {
+                error?: string;
+                hint?: string;
+              };
+              if (body.error) {
+                message = body.hint ? `${body.error} — ${body.hint}` : body.error;
+              }
+            } catch {
+              /* keep default message */
+            }
+          } else if (payload?.error) {
+            message = payload.hint
+              ? `${payload.error} — ${payload.hint}`
+              : payload.error;
+          }
+          return { success: false, error: message };
         }
 
-        if (!data?.success || !data.user) {
+        if (!payload?.success || !payload.user) {
           return {
             success: false,
             error:
-              data?.error ||
+              (payload?.hint ? `${payload.error} — ${payload.hint}` : payload?.error) ||
               'Could not create user in Supabase Auth. Check ADMIN_SECRET matches Netlify env.',
           };
         }
 
+        const created = payload.user as {
+          id: string;
+          name?: string;
+          email?: string;
+          role?: string;
+          team?: string;
+          avatarColor?: string;
+        };
         localUser = {
-          id: data.user.id,
-          name: data.user.name ?? user.name,
-          email: data.user.email ?? loginEmail,
-          role: (data.user.role as User['role']) || user.role,
-          team: data.user.team ?? user.team,
-          avatarColor: data.user.avatarColor ?? user.avatarColor,
+          id: created.id,
+          name: created.name ?? user.name,
+          email: created.email ?? loginEmail,
+          role: (created.role as User['role']) || user.role,
+          team: created.team ?? user.team,
+          avatarColor: created.avatarColor ?? user.avatarColor,
           createdAt: user.createdAt,
         };
       } catch (err: unknown) {

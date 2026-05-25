@@ -1,5 +1,5 @@
 import { createAdminClient } from "../_shared/supabase-admin.ts";
-import { verifyAdminSecret } from "../_shared/admin.ts";
+import { checkAdminSecret } from "../_shared/admin.ts";
 import { handleCors, jsonResponse } from "../_shared/cors.ts";
 
 Deno.serve(async (req) => {
@@ -10,8 +10,28 @@ Deno.serve(async (req) => {
     return jsonResponse({ success: false, error: "Method not allowed" }, 405);
   }
 
-  if (!verifyAdminSecret(req)) {
-    return jsonResponse({ success: false, error: "Unauthorized admin" }, 401);
+  const adminAuthError = checkAdminSecret(req);
+  if (adminAuthError) {
+    const messages: Record<string, { error: string; hint: string }> = {
+      secret_not_configured: {
+        error: "ADMIN_SECRET is not set on this Edge Function",
+        hint:
+          "Supabase Dashboard → Edge Functions → Secrets → add ADMIN_SECRET (same value as NEXT_PUBLIC_ADMIN_FUNCTION_SECRET on Netlify).",
+      },
+      header_missing: {
+        error: "Missing x-admin-secret header",
+        hint:
+          "Ensure the client calls functions.invoke with headers: { 'x-admin-secret': <secret> }.",
+      },
+      header_mismatch: {
+        error: "Invalid admin secret",
+        hint:
+          "ADMIN_SECRET in Supabase must exactly match NEXT_PUBLIC_ADMIN_FUNCTION_SECRET (or NEXT_PUBLIC_ADMIN_PASSWORD) in Netlify.",
+      },
+    };
+    const { error, hint } = messages[adminAuthError];
+    const status = adminAuthError === "secret_not_configured" ? 503 : 401;
+    return jsonResponse({ success: false, error, hint }, status);
   }
 
   try {
