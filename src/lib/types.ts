@@ -45,6 +45,12 @@ export interface DailyReport {
   chatWithSurendraVats?: boolean;
   workDoneOnTime?: boolean;
   workDoneOnTimeReason?: string;
+  
+  // Custom Daily Accomplishments fields (Q3 Restructuring):
+  personalJoiningToday?: number;
+  teamJoiningToday?: number;
+  productsSoldList?: string;
+  planShowsToday?: number;
 }
 
 export interface Session {

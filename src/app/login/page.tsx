@@ -50,7 +50,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green transition-colors"
-              placeholder="admin"
+              placeholder="ambikaprsahu1105"
               required
             />
           </div>
@@ -62,7 +62,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green transition-colors"
-              placeholder="admin123"
+              placeholder="9437622297"
               required
             />
           </div>

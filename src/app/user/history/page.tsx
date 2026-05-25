@@ -22,23 +22,22 @@ const translations = {
     meetings: "Meetings",
     
     // Detailed sections
-    monthTarget: "Monthly Target",
+    monthTarget: "Daily Joining & Sales Details",
     activityDetails: "Activity Details",
     personalDevelopment: "Personal Development",
     workStatus: "Work Status",
     
     // Labels
-    level: "Level",
-    joining: "Joining Target",
-    team: "Team Target",
-    homeMeeting: "Home Meeting Target",
-    ibm: "IBM Target",
+    personalJoining: "Personal Joining",
+    teamJoining: "Team Joining",
+    productsSoldList: "Products Sold List",
+    planShows: "Plan Shows",
     prospectsListed: "Prospects Listed Today",
-    phoneShows: "Phone Shows Today",
+    phoneShows: "Plan Shows Today",
     meetingPlace: "Meeting Place",
     meetingType: "Meeting Type",
     customersConnected: "Customers Connected",
-    associatesConnected: "Associates Connected",
+    associatesConnected: "Associates Called",
     bookRead: "Book Read",
     chatVats: "Chat/Watch Surendra Vats",
     workOnTime: "Work Done On Time",
@@ -64,23 +63,22 @@ const translations = {
     meetings: "ବୈଠକ",
     
     // Detailed sections
-    monthTarget: "ମାସିକ ଲକ୍ଷ୍ୟ (Monthly Target)",
+    monthTarget: "ବ୍ୟକ୍ତିଗତ ଜଏନିଂ, ବିକ୍ରି ଏବଂ ପ୍ଲାନ ଶୋ ବିବରଣୀ",
     activityDetails: "କାର୍ଯ୍ୟକଳାପ ବିବରଣୀ (Activity Details)",
     personalDevelopment: "ବ୍ୟକ୍ତିଗତ ବିକାଶ (Personal Dev)",
     workStatus: "କାର୍ଯ୍ୟ ସମାପ୍ତି ସ୍ଥିତି (Work Status)",
     
     // Labels
-    level: "ଲେଭଲ୍ (Level)",
-    joining: "ଜଏନିଂ ଲକ୍ଷ୍ୟ",
-    team: "ଟିମ୍ ଲକ୍ଷ୍ୟ",
-    homeMeeting: "ହୋମ୍ ମିଟିଂ ଲକ୍ଷ୍ୟ",
-    ibm: "ଆଇ.ବି.ଏମ୍. ଲକ୍ଷ୍ୟ",
-    prospectsListed: "ଆଜି ପ୍ରୋସପେକ୍ଟ ତାଲିକା କରିଛନ୍ତି",
-    phoneShows: "ଆଜି ଫୋନ ଶୋ କରିଛନ୍ତି",
+    personalJoining: "ବ୍ୟକ୍ତିଗତ ଜଏନିଂ",
+    teamJoining: "ଟିମର୍ ଜଏନିଂ",
+    productsSoldList: "ବିକ୍ରି ହୋଇଥିବା ପ୍ରଡକ୍ଟ ଓ କ୍ୱାଣ୍ଟିଟି",
+    planShows: "ପ୍ଲାନ୍ ଶୋ ସଂଖ୍ୟା",
+    prospectsListed: "ଆଜି ପ୍ରୋସପେକ୍ଟ ତାଲିକา କରିଛନ୍ତି",
+    phoneShows: "ଆଜି ପ୍ଲାନ ଶୋ କରିଛନ୍ତି",
     meetingPlace: "ମିଟିଂ ସ୍ଥାନ",
     meetingType: "ମିଟିଂ ପ୍ରକାର",
     customersConnected: "କଷ୍ଟମରଙ୍କୁ ସଂଯୋଗ କଲେ",
-    associatesConnected: "ଆସୋସିଏଟ୍ ଙ୍କୁ ସଂଯୋଗ କଲେ",
+    associatesConnected: "କଲ୍ କରିଥିବା ଆସୋସିଏଟ୍ ସଂଖ୍ୟା",
     bookRead: "ପଢିଥିବା ବହି",
     chatVats: "Surendra Vats ଙ୍କ ଭିଡିଓ ଦେଖିଲେ କି",
     workOnTime: "ସମୟ ଅନୁସାରେ କାମ ହୋଇଛି",
@@ -264,36 +262,61 @@ export default function UserHistory() {
                       animate={{ height: 'auto', opacity: 1 }}
                       className="border-t border-slate-200 pt-4 flex flex-col gap-5 text-sm overflow-hidden"
                     >
-                      {/* Sub-section 1: Monthly Target (Q3) */}
-                      {report.monthTargetLevel && (
+                      {/* Sub-section 1: Daily Joining & Sales Details (Q3 Rework) */}
+                      {report.personalJoiningToday !== undefined ? (
                         <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
                           <h4 className="font-bold text-slate-800 flex items-center gap-1.5 mb-3">
                             <Target className="w-4 h-4 text-ag-green" style={{ color: '#22C55E' }} />
                             {t.monthTarget}
                           </h4>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             <div className="flex flex-col">
-                              <span className="text-xs text-slate-400 font-medium">{t.level}</span>
-                              <span className="font-semibold text-slate-800">{report.monthTargetLevel}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t.personalJoining}</span>
+                              <span className="font-bold text-slate-800">{report.personalJoiningToday ?? 0}</span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-xs text-slate-400 font-medium">{t.joining}</span>
-                              <span className="font-semibold text-slate-800">{report.monthTargetJoining ?? 0}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t.teamJoining}</span>
+                              <span className="font-bold text-slate-800">{report.teamJoiningToday ?? 0}</span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-xs text-slate-400 font-medium">{t.team}</span>
-                              <span className="font-semibold text-slate-800">{report.monthTargetTeam ?? 0}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t.products}</span>
+                              <span className="font-bold text-slate-800">{report.productsSold ?? 0}</span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-xs text-slate-400 font-medium">{t.homeMeeting}</span>
-                              <span className="font-semibold text-slate-800">{report.monthTargetHomeMeeting ?? 0}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t.planShows}</span>
+                              <span className="font-bold text-slate-800">{report.planShowsToday ?? 0}</span>
                             </div>
-                            <div className="flex flex-col">
-                              <span className="text-xs text-slate-400 font-medium">{t.ibm}</span>
-                              <span className="font-semibold text-slate-800">{report.monthTargetIbm ?? 0}</span>
-                            </div>
+                            {report.productsSoldList && (
+                              <div className="flex flex-col col-span-2">
+                                <span className="text-xs text-slate-400 font-medium">{t.productsSoldList}</span>
+                                <span className="font-semibold text-slate-800 bg-white px-2 py-1 rounded border border-slate-200 mt-1">{report.productsSoldList}</span>
+                              </div>
+                            )}
                           </div>
                         </div>
+                      ) : (
+                        report.monthTargetLevel && (
+                          <div className="bg-slate-50 p-4 rounded-xl border border-slate-150">
+                            <h4 className="font-bold text-slate-800 flex items-center gap-1.5 mb-3">
+                              <Target className="w-4 h-4 text-ag-green" style={{ color: '#22C55E' }} />
+                              {language === "or" ? "ମାସିକ ଲକ୍ଷ୍ୟ (Monthly Target)" : "Monthly Target"}
+                            </h4>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                              <div className="flex flex-col">
+                                <span className="text-xs text-slate-400 font-medium">{language === "or" ? "ଲେଭଲ୍" : "Level"}</span>
+                                <span className="font-semibold text-slate-800">{report.monthTargetLevel}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs text-slate-400 font-medium">{language === "or" ? "ଜଏନିଂ ଲକ୍ଷ୍ୟ" : "Joining Target"}</span>
+                                <span className="font-semibold text-slate-800">{report.monthTargetJoining ?? 0}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs text-slate-400 font-medium">{language === "or" ? "ଟିମ୍ ଲକ୍ଷ୍ୟ" : "Team Target"}</span>
+                                <span className="font-semibold text-slate-800">{report.monthTargetTeam ?? 0}</span>
+                              </div>
+                            </div>
+                          </div>
+                        )
                       )}
 
                       {/* Sub-section 2: Prospects and Phone Presentations (Q4 & Q5, Q6, Q7, Q8) */}

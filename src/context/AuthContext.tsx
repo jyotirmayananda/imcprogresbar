@@ -35,11 +35,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (email: string, password?: string) => {
     // Hardcoded admin
-    if (email === 'admin' && password === 'admin123') {
+    if (email === 'ambikaprsahu1105' && password === '9437622297') {
       const adminUser: Omit<User, 'password'> = {
         id: 'admin-1',
         name: 'Super Admin',
-        email: 'admin',
+        email: 'ambikaprsahu1105',
         role: 'admin',
         team: 'Global',
         avatarColor: '#22C55E',

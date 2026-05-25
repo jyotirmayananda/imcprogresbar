@@ -20,7 +20,7 @@ const translations = {
     
     // Detailed sections
     metrics: "Basic Metrics",
-    monthTarget: "Monthly Target",
+    monthTarget: "Daily Joining & Sales Details",
     activityDetails: "Activity Details",
     personalDevelopment: "Personal Development",
     workStatus: "Work Status",
@@ -32,17 +32,16 @@ const translations = {
     challenges: "Challenges Reported",
     notes: "Notes",
     
-    level: "Level",
-    joining: "Joining Target",
-    team: "Team Target",
-    homeMeeting: "Home Meeting Target",
-    ibm: "IBM Target",
+    personalJoining: "Personal Joining",
+    teamJoining: "Team Joining",
+    productsSoldList: "Products Sold List",
+    planShows: "Plan Shows",
     prospectsListed: "Prospects Listed",
-    phoneShows: "Phone Shows",
+    phoneShows: "Plan Shows",
     meetingPlace: "Meeting Place",
     meetingType: "Meeting Type",
     customersConnected: "Customers Connected",
-    associatesConnected: "Associates Connected",
+    associatesConnected: "Associates Called",
     bookRead: "Book Read",
     chatVats: "Chat/Watch Surendra Vats",
     workOnTime: "Work Done On Time",
@@ -62,7 +61,7 @@ const translations = {
     
     // Detailed sections
     metrics: "ପ୍ରାଥମିକ ମାପଦଣ୍ଡ",
-    monthTarget: "ମାସିକ ଲକ୍ଷ୍ୟ (Monthly Target)",
+    monthTarget: "ବ୍ୟକ୍ତିଗତ ଜଏନିଂ, ବିକ୍ରି ଏବଂ ପ୍ଲାନ ଶୋ ବିବରଣୀ",
     activityDetails: "କାର୍ଯ୍ୟକଳାପ ବିବରଣୀ (Activity Details)",
     personalDevelopment: "ବ୍ୟକ୍ତିଗତ ବିକାଶ (Personal Dev)",
     workStatus: "କାର୍ଯ୍ୟ ସମାପ୍ତି ସ୍ଥିତି (Work Status)",
@@ -74,17 +73,16 @@ const translations = {
     challenges: "ସମସ୍ୟାଗୁଡିକ",
     notes: "ଟିପ୍ପଣୀ (Notes)",
     
-    level: "ଲେଭଲ୍ (Level)",
-    joining: "ଜଏନିଂ ଲକ୍ଷ୍ୟ",
-    team: "ଟିମ୍ ଲକ୍ଷ୍ୟ",
-    homeMeeting: "ହୋମ୍ ମିଟିଂ ଲକ୍ଷ୍ୟ",
-    ibm: "ଆଇ.ବି.ଏମ୍. ଲକ୍ଷ୍ୟ",
+    personalJoining: "ବ୍ୟକ୍ତିଗତ ଜଏନିଂ",
+    teamJoining: "ଟିମର୍ ଜଏନିଂ",
+    productsSoldList: "ବିକ୍ରି ହୋଇଥିବା ପ୍ରଡକ୍ଟ ଓ କ୍ୱାଣ୍ଟିଟି",
+    planShows: "ପ୍ଲାନ୍ ଶୋ ସଂଖ୍ୟା",
     prospectsListed: "ପ୍ରୋସପେକ୍ଟ ତାଲିକା କରିଛନ୍ତି",
-    phoneShows: "ଫୋନ ଶୋ କରିଛନ୍ତି",
+    phoneShows: "ପ୍ଲାନ ଶୋ କରିଛନ୍ତି",
     meetingPlace: "ମିଟିଂ ସ୍ଥାନ",
     meetingType: "ମିଟିଂ ପ୍ରକାର",
     customersConnected: "କଷ୍ଟମରଙ୍କୁ ସଂଯୋଗ କଲେ",
-    associatesConnected: "ଆସୋସିଏଟ୍ ଙ୍କୁ ସଂଯୋଗ କଲେ",
+    associatesConnected: "କଲ୍ କରିଥିବା ଆସୋସିଏଟ୍ ସଂଖ୍ୟା",
     bookRead: "ପଢିଥିବା ବହି",
     chatVats: "Surendra Vats ଙ୍କ ଭିଡିଓ ଦେଖିଲେ କି",
     workOnTime: "ସମୟ ଅନୁସାରେ କାମ ହୋଇଛି",
@@ -282,36 +280,61 @@ export default function AdminReports() {
                               </div>
                             </div>
 
-                            {/* Monthly target parameters (Q3) */}
-                            {report.monthTargetLevel && (
+                            {/* Daily Joining & Sales Details (Q3 Rework) */}
+                            {report.personalJoiningToday !== undefined ? (
                               <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-3">
                                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
                                   <Target className="w-3.5 h-3.5 text-ag-green" style={{ color: '#22C55E' }} />
                                   {t.monthTarget}
                                 </h4>
-                                <div className="grid grid-cols-3 gap-2 text-xs">
+                                <div className="grid grid-cols-2 gap-3 text-xs">
                                   <div className="bg-slate-50 p-2 rounded border border-slate-100">
-                                    <span className="text-slate-400 block mb-0.5">{t.level}</span>
-                                    <strong className="text-slate-800">{report.monthTargetLevel}</strong>
+                                    <span className="text-slate-400 block mb-0.5">{t.personalJoining}</span>
+                                    <strong className="text-slate-800">{report.personalJoiningToday ?? 0}</strong>
                                   </div>
                                   <div className="bg-slate-50 p-2 rounded border border-slate-100">
-                                    <span className="text-slate-400 block mb-0.5">{t.joining}</span>
-                                    <strong className="text-slate-800">{report.monthTargetJoining ?? 0}</strong>
+                                    <span className="text-slate-400 block mb-0.5">{t.teamJoining}</span>
+                                    <strong className="text-slate-800">{report.teamJoiningToday ?? 0}</strong>
                                   </div>
                                   <div className="bg-slate-50 p-2 rounded border border-slate-100">
-                                    <span className="text-slate-400 block mb-0.5">{t.team}</span>
-                                    <strong className="text-slate-800">{report.monthTargetTeam ?? 0}</strong>
+                                    <span className="text-slate-400 block mb-0.5">{t.products}</span>
+                                    <strong className="text-slate-800">{report.productsSold ?? 0}</strong>
                                   </div>
                                   <div className="bg-slate-50 p-2 rounded border border-slate-100">
-                                    <span className="text-slate-400 block mb-0.5">{t.homeMeeting}</span>
-                                    <strong className="text-slate-800">{report.monthTargetHomeMeeting ?? 0}</strong>
+                                    <span className="text-slate-400 block mb-0.5">{t.planShows}</span>
+                                    <strong className="text-slate-800">{report.planShowsToday ?? 0}</strong>
                                   </div>
-                                  <div className="bg-slate-50 p-2 rounded border border-slate-100">
-                                    <span className="text-slate-400 block mb-0.5">{t.ibm}</span>
-                                    <strong className="text-slate-800">{report.monthTargetIbm ?? 0}</strong>
-                                  </div>
+                                  {report.productsSoldList && (
+                                    <div className="bg-slate-50 p-2 rounded border border-slate-100 col-span-2">
+                                      <span className="text-slate-400 block mb-0.5">{t.productsSoldList}</span>
+                                      <span className="font-semibold text-slate-800 bg-white px-2 py-1 rounded border border-slate-200 mt-1 block">{report.productsSoldList}</span>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
+                            ) : (
+                              report.monthTargetLevel && (
+                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-3">
+                                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                                    <Target className="w-3.5 h-3.5 text-ag-green" style={{ color: '#22C55E' }} />
+                                    {language === "or" ? "ମାସିକ ଲକ୍ଷ୍ୟ (Monthly Target)" : "Monthly Target"}
+                                  </h4>
+                                  <div className="grid grid-cols-3 gap-2 text-xs">
+                                    <div className="bg-slate-50 p-2 rounded border border-slate-100">
+                                      <span className="text-slate-400 block mb-0.5">{language === "or" ? "ଲେଭଲ୍" : "Level"}</span>
+                                      <strong className="text-slate-800">{report.monthTargetLevel}</strong>
+                                    </div>
+                                    <div className="bg-slate-50 p-2 rounded border border-slate-100">
+                                      <span className="text-slate-400 block mb-0.5">{language === "or" ? "ଜଏନିଂ ଲକ୍ଷ୍ୟ" : "Joining Target"}</span>
+                                      <strong className="text-slate-800">{report.monthTargetJoining ?? 0}</strong>
+                                    </div>
+                                    <div className="bg-slate-50 p-2 rounded border border-slate-100">
+                                      <span className="text-slate-400 block mb-0.5">{language === "or" ? "ଟିମ୍ ଲକ୍ଷ୍ୟ" : "Team Target"}</span>
+                                      <strong className="text-slate-800">{report.monthTargetTeam ?? 0}</strong>
+                                    </div>
+                                  </div>
+                                </div>
+                              )
                             )}
 
                           </div>

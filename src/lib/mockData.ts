@@ -50,17 +50,24 @@ export const generateMockReports = (): DailyReport[] => {
         id: `mock-report-${user.id}-${i}`,
         userId: user.id,
         date: date.toISOString().split("T")[0],
-        productsSold: Math.floor(Math.random() * 20) + 5,
-        totalSalesValue: Math.floor(Math.random() * 50000) + 10000,
+        productsSold: Math.floor(Math.random() * 5) + 1, // realistic product sales count
+        totalSalesValue: Math.floor(Math.random() * 5000) + 500, // realistic sales value
         startTime: "09:00",
         endTime: "18:00",
         locationsVisited: ["Sector A", "Sector B"],
         customerMeetings: Math.floor(Math.random() * 5) + 2,
         pendingFollowUps: Math.floor(Math.random() * 3),
-        dealsClosed: Math.random() > 0.5,
-        dealsDetails: "Closed Q3 enterprise package",
-        challenges: i % 3 === 0 ? "Client postponed meeting" : "",
+        dealsClosed: Math.random() > 0.8,
+        dealsDetails: "Closed IMC package deal",
+        challenges: i % 5 === 0 ? "Client postponed meeting" : "",
         notes: "Good progress today",
+        
+        // Populate restructure daily report fields:
+        personalJoiningToday: Math.floor(Math.random() * 3),
+        teamJoiningToday: Math.floor(Math.random() * 5),
+        productsSoldList: "IMC Aloe Vera Juice - 2, IMC Dental Cream - 1",
+        planShowsToday: Math.floor(Math.random() * 4) + 1,
+        
         createdAt: new Date().toISOString()
       });
     }

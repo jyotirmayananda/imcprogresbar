@@ -16,11 +16,11 @@ const translations = {
     allSetDesc: "You've successfully submitted your daily report. Great work!",
     
     // Categories
-    performanceMetrics: "Performance Metrics",
+    performanceMetrics: "Performance & Sales Value",
     timeTracking: "Time Tracking",
     activity: "Activity Details",
     dealsAndChallenges: "Deals & Challenges",
-    monthTarget: "3. What is this month's target?",
+    monthTarget: "3. Joining, Sales & Plan Show Details",
     meetingActivity: "6. Where did you do a meeting today?",
     readingAndChat: "Personal Development",
     workCompleted: "Work Completion Status",
@@ -28,7 +28,7 @@ const translations = {
     // Labels
     selectName: "1. Select your Name",
     selectDate: "2. Date (Reporting Date)",
-    productsSold: "Products Sold",
+    productsSold: "How many products did you sell?",
     totalSalesValue: "Total Sales Value (₹)",
     startTime: "Start Time",
     endTime: "End Time",
@@ -41,17 +41,16 @@ const translations = {
     notes: "Additional Notes / Highlights",
     
     // New handwritten labels
-    level: "Level",
-    joiningPerson: "Joining Person (1-10)",
-    teamTarget: "Team Target",
-    homeMeetingTarget: "Home Meeting Target (1-20)",
-    ibmTarget: "IBM Target (1-10)",
+    personalJoining: "Personal Joining",
+    teamJoining: "Team Joining",
+    productsSoldList: "Selling Product List (Names and Quantity)",
+    planShows: "How many did you show the plan to?",
     prospectsListed: "4. How many prospects did you list today? (1-10)",
-    phoneShows: "5. How many phone shows did you do today? (1-10)",
+    phoneShows: "5. How many plan shows did you do today? (1-10)",
     meetingPlace: "Meeting Place",
     meetingType: "Meeting Type",
     customersConnected: "7. How many customers did you connect with today? (1-20)",
-    associatesConnected: "8. How many associates did you connect with today? (1-20)",
+    associatesConnected: "8. How many associates did you call? (1-20)",
     bookRead: "9. Which book did you read today?",
     chatWithSurendraVats: "10. Did you watch/chat with Surendra Vats today?",
     workOnTime: "11. Was today's work completed on time?",
@@ -70,11 +69,11 @@ const translations = {
     allSetDesc: "ଆପଣ ସଫଳତାର ସହ ଆପଣଙ୍କର ଦୈନିକ ରିପୋର୍ଟ ଦାଖଲ କରିଛନ୍ତି। ବହୁତ ବଢିଆ କାମ!",
     
     // Categories
-    performanceMetrics: "ପ୍ରଦର୍ଶନ ମାପଦଣ୍ଡ (Performance Metrics)",
+    performanceMetrics: "ପ୍ରଦର୍ଶନ ଏବଂ ବିକ୍ରି ମୂଲ୍ୟ (Performance & Sales)",
     timeTracking: "ସମୟ ଟ୍ରାକିଂ (Time Tracking)",
     activity: "କାର୍ଯ୍ୟକଳାପ ବିବରଣୀ (Activity)",
     dealsAndChallenges: "ଡିଲ୍ ଏବଂ ଚ୍ୟାଲେଞ୍ଜ (Deals & Challenges)",
-    monthTarget: "୩. ଏହି ମାସର ଲକ୍ଷ୍ୟ କଣ? (Month's Target)",
+    monthTarget: "୩. ବ୍ୟକ୍ତିଗତ ଜଏନିଂ, ବିକ୍ରି ଏବଂ ପ୍ଲାନ ଶୋ ବିବରଣୀ",
     meetingActivity: "୬. ଆଜି କେଉଁଠି ମିଟିଂ କଲେ? (Meeting Details)",
     readingAndChat: "ବ୍ୟକ୍ତିଗତ ବିକାଶ (Personal Development)",
     workCompleted: "ଆଜିର କାର୍ଯ୍ୟ ସମାପ୍ତି (Work Status)",
@@ -82,7 +81,7 @@ const translations = {
     // Labels
     selectName: "୧. ଆପଣଙ୍କର ନାମ ବାଛନ୍ତୁ (Select Name)",
     selectDate: "୨. କେଉଁ ତାରିଖ ପାଇଁ ଡାଟା ଦେଉଛନ୍ତି (Date)",
-    productsSold: "ବିକ୍ରି ହୋଇଥିବା ପ୍ରଡକ୍ଟ ସଂଖ୍ୟା",
+    productsSold: "କେତେ ପ୍ରଡକ୍ଟ ବିକ୍ରି କଲେ?",
     totalSalesValue: "ମୋଟ ବିକ୍ରି ମୂଲ୍ୟ (₹)",
     startTime: "ଆରମ୍ଭ ସମୟ",
     endTime: "ଶେଷ ସମୟ",
@@ -95,17 +94,16 @@ const translations = {
     notes: "ଅତିରିକ୍ତ ସୂଚନା / ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ କଥା",
     
     // New handwritten labels
-    level: "ଲେଭଲ୍ (Level)",
-    joiningPerson: "ଜଏନିଂ ବ୍ୟକ୍ତି (1-10)",
-    teamTarget: "ଟିମ୍ ଲକ୍ଷ୍ୟ (Team Target)",
-    homeMeetingTarget: "ହୋମ୍ ମିଟିଂ ଲକ୍ଷ୍ୟ (1-20)",
-    ibmTarget: "ଆଇ.ବି.ଏମ୍. ଲକ୍ଷ୍ୟ (1-10)",
+    personalJoining: "ବ୍ୟକ୍ତିଗତ ଜଏନିଂ (Personal Joining)",
+    teamJoining: "ଟିମର୍ ଜଏନିଂ (Team Joining)",
+    productsSoldList: "ବିକ୍ରି ହୋଇଥିବା ପ୍ରଡକ୍ଟ ର ନାଁ ଏବଂ କ୍ୱାଣ୍ଟିଟି",
+    planShows: "କେତେ ଜଣଙ୍କୁ ପ୍ଲାନ୍ ଶୋ କରିଛନ୍ତି",
     prospectsListed: "୪. ଆଜି କେତେ ଜଣଙ୍କୁ ପ୍ରୋସପେକ୍ଟ ତାଲିକା କରିଛନ୍ତି? (1-10)",
-    phoneShows: "୫. ଆଜି କେତେ ଜଣଙ୍କୁ ଫୋନ ଶୋ କରିଛନ୍ତି? (1-10)",
+    phoneShows: "୫. ଆଜି କେତେ ଜଣଙ୍କୁ ପ୍ଲାନ ଶୋ କରିଛନ୍ତି? (1-10)",
     meetingPlace: "ମିଟିଂ ସ୍ଥାନ (Place)",
     meetingType: "ମିଟିଂ ପ୍ରକାର (Type)",
     customersConnected: "୭. ଆଜି କେତେ ଜଣ କଷ୍ଟମରଙ୍କୁ ସଂଯୋଗ କଲେ? (1-20)",
-    associatesConnected: "୮. ଆଜି କେତେ ଜଣ ଆସୋସିଏଟ୍ ଙ୍କୁ ସଂଯୋଗ କଲେ? (1-20)",
+    associatesConnected: "୮. କେତେଜଣ ଏସୋସିଏଟ୍ ଙ୍କୁ କଲ୍ କଲେ? (1-20)",
     bookRead: "୯. ଆଜି କେଉଁ ବହି ପଢିଲେ?",
     chatWithSurendraVats: "୧୦. ଆଜି Surendra Vats ଙ୍କ ଭିଡିଓ ଦେଖିଲେ କିମ୍ବା ଚାଟ୍ କଲେ କି?",
     workOnTime: "୧୧. ଆଜିର କାମ ସମୟ ଅନୁସାରେ/ସମୟ ହୋଇପାରିଥିଲା କି?",
@@ -144,6 +142,13 @@ export default function UserDashboard() {
     monthTargetTeam: "",
     monthTargetHomeMeeting: "",
     monthTargetIbm: "",
+    
+    // Reworked Daily Q3 Accomplishments
+    personalJoiningToday: 0,
+    teamJoiningToday: 0,
+    productsSoldList: "",
+    planShowsToday: 0,
+    
     prospectsListedToday: 0,
     phoneShowsToday: 0,
     meetingPlace: "",
@@ -213,6 +218,13 @@ export default function UserDashboard() {
       monthTargetTeam: Number(formData.monthTargetTeam) || 0,
       monthTargetHomeMeeting: Number(formData.monthTargetHomeMeeting) || 0,
       monthTargetIbm: Number(formData.monthTargetIbm) || 0,
+      
+      // Reworked Daily Q3 Accomplishments
+      personalJoiningToday: Number(formData.personalJoiningToday) || 0,
+      teamJoiningToday: Number(formData.teamJoiningToday) || 0,
+      productsSoldList: formData.productsSoldList,
+      planShowsToday: Number(formData.planShowsToday) || 0,
+      
       prospectsListedToday: Number(formData.prospectsListedToday) || 0,
       phoneShowsToday: Number(formData.phoneShowsToday) || 0,
       meetingPlace: formData.meetingPlace,
@@ -348,7 +360,7 @@ export default function UserDashboard() {
           </div>
         </motion.div>
 
-        {/* Section 2: Monthly Targets (Q3) */}
+        {/* Section 2: Daily Joining, Sales & Plan Show Details (Q3 Rework) */}
         <motion.div variants={itemVariants} className="glass p-6 rounded-2xl flex flex-col gap-4 border border-slate-200">
           <h3 className="font-heading text-lg font-bold text-slate-900 flex items-center gap-2 pb-2 border-b border-slate-100">
             <Target className="w-5 h-5 text-ag-green" style={{ color: '#22C55E' }} />
@@ -356,49 +368,11 @@ export default function UserDashboard() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-700">{t.level}</label>
-              <select
-                name="monthTargetLevel"
-                value={formData.monthTargetLevel}
-                onChange={handleChange}
-                className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green cursor-pointer"
-              >
-                <option value="10% (Star Associate)">10% (Star Associate)</option>
-                <option value="20% (Executive Star Associate)">20% (Executive Star Associate)</option>
-                <option value="25% (Senior Star Associate)">25% (Senior Star Associate)</option>
-                <option value="30% (Super Star Associate)">30% (Super Star Associate)</option>
-                <option value="Silver Star Associates">Silver Star Associates</option>
-                <option value="Gold Star Associates">Gold Star Associates</option>
-                <option value="Ruby Star Associates">Ruby Star Associates</option>
-                <option value="Diamond Star Associates">Diamond Star Associates</option>
-                <option value="Chairman Star Associates">Chairman Star Associates</option>
-                <option value="Ambassador Star Associates">Ambassador Star Associates</option>
-                <option value="Crown Ambassador Star Associates">Crown Ambassador Star Associates</option>
-                <option value="President Star Associates">President Star Associates</option>
-                <option value="Crown President Star Associates">Crown President Star Associates</option>
-                <option value="Director Crown President">Director Crown President</option>
-                <option value="Kohinoor Crown President">Kohinoor Crown President</option>
-              </select>
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-700">{t.joiningPerson}</label>
-              <select
-                name="monthTargetJoining"
-                value={formData.monthTargetJoining}
-                onChange={handleChange}
-                className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green cursor-pointer"
-              >
-                {[...Array(10)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>{i + 1}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-700">{t.teamTarget}</label>
+              <label className="text-sm font-medium text-slate-700">{t.personalJoining}</label>
               <input
                 type="number"
-                name="monthTargetTeam"
-                value={formData.monthTargetTeam}
+                name="personalJoiningToday"
+                value={formData.personalJoiningToday}
                 onChange={handleChange}
                 required
                 min="0"
@@ -406,48 +380,64 @@ export default function UserDashboard() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-700">{t.homeMeetingTarget}</label>
+              <label className="text-sm font-medium text-slate-700">{t.teamJoining}</label>
               <input
                 type="number"
-                name="monthTargetHomeMeeting"
-                value={formData.monthTargetHomeMeeting}
+                name="teamJoiningToday"
+                value={formData.teamJoiningToday}
                 onChange={handleChange}
-                placeholder="1-20"
-                min="1"
-                max="20"
                 required
+                min="0"
+                className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-slate-700">{t.productsSold}</label>
+              <input
+                type="number"
+                name="productsSold"
+                value={formData.productsSold}
+                onChange={handleChange}
+                required
+                min="0"
+                className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-slate-700">{t.planShows}</label>
+              <input
+                type="number"
+                name="planShowsToday"
+                value={formData.planShowsToday}
+                onChange={handleChange}
+                required
+                min="0"
                 className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green"
               />
             </div>
             <div className="flex flex-col gap-1 md:col-span-2">
-              <label className="text-sm font-medium text-slate-700">{t.ibmTarget}</label>
-              <input
-                type="number"
-                name="monthTargetIbm"
-                value={formData.monthTargetIbm}
+              <label className="text-sm font-medium text-slate-700">{t.productsSoldList}</label>
+              <textarea
+                name="productsSoldList"
+                value={formData.productsSoldList}
                 onChange={handleChange}
-                placeholder="1-10"
-                min="1"
-                max="10"
                 required
-                className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green"
+                rows={2}
+                placeholder="e.g. Aloe Vera - 2, Dental Cream - 1"
+                className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green resize-none"
               />
             </div>
           </div>
         </motion.div>
 
-        {/* Section 3: Performance Metrics (Includes Q4 & Q5) */}
+        {/* Section 3: Performance Metrics & Sales Value */}
         <motion.div variants={itemVariants} className="glass p-6 rounded-2xl flex flex-col gap-4 border border-slate-200">
           <h3 className="font-heading text-lg font-bold text-slate-900 flex items-center gap-2 pb-2 border-b border-slate-100">
             <CheckCircle2 className="w-5 h-5 text-ag-green" style={{ color: '#22C55E' }} />
             {t.performanceMetrics}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-700">{t.productsSold}</label>
-              <input type="number" name="productsSold" value={formData.productsSold} onChange={handleChange} required min="0" className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green" />
-            </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 md:col-span-2">
               <label className="text-sm font-medium text-slate-700">{t.totalSalesValue}</label>
               <input type="number" name="totalSalesValue" value={formData.totalSalesValue} onChange={handleChange} required min="0" className="bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:border-ag-green" />
             </div>
