@@ -1,3 +1,5 @@
+import type { AvatarType } from './avatar';
+
 export type Role = 'admin' | 'user';
 
 export interface User {
@@ -7,7 +9,7 @@ export interface User {
   password?: string; // Stored securely in real app, plain in localStorage for demo
   role: Role;
   team: string;
-  avatarColor: string;
+  avatar: AvatarType;
   createdAt: string;
 }
 

@@ -7,6 +7,8 @@ import { BarChart, LineChart, PieChart } from "@/components/charts/Charts";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, Package, IndianRupee, Clock, Trophy } from "lucide-react";
 import Link from "next/link";
+import { UserAvatar } from "@/components/UserAvatar";
+import { normalizeAvatar } from "@/lib/avatar";
 
 export default function AdminDashboard() {
   const { users, getReports, getTeamStats, hasSubmittedToday } = useData();
@@ -208,12 +210,7 @@ export default function AdminDashboard() {
                   className="glass-card p-5 rounded-2xl flex items-center justify-between cursor-pointer border border-slate-200 hover:border-slate-300 transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <div 
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-slate-900 font-bold"
-                      style={{ backgroundColor: u.avatarColor || '#22C55E' }}
-                    >
-                      {u.name.charAt(0).toUpperCase()}
-                    </div>
+                    <UserAvatar avatar={normalizeAvatar(u.avatar)} size="sm" />
                     <div>
                       <h4 className="font-medium text-slate-900">{u.name}</h4>
                       <p className="text-xs text-slate-500">{u.team}</p>

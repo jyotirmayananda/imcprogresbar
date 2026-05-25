@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Session } from '@/lib/types';
+import { DEFAULT_AVATAR, normalizeAvatar } from '@/lib/avatar';
 import { getItem, setItem, removeItem } from '@/lib/localStorage';
 import { useRouter, usePathname } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
@@ -47,7 +48,7 @@ function profileFromAuthUser(
       email: String(row.email),
       role: row.role as User['role'],
       team: String(row.team ?? 'Global'),
-      avatarColor: String(row.avatar_color ?? '#22C55E'),
+      avatar: normalizeAvatar(String(row.avatar_color ?? '')),
       createdAt: String(row.created_at ?? new Date().toISOString()),
     };
   }
@@ -58,7 +59,9 @@ function profileFromAuthUser(
     email: authUser.email ?? '',
     role: (meta.role as User['role']) || 'user',
     team: String(meta.team ?? 'Global'),
-    avatarColor: String(meta.avatarColor ?? '#22C55E'),
+    avatar: normalizeAvatar(
+      String(meta.avatar ?? meta.avatarColor ?? ''),
+    ),
     createdAt: authUser.created_at ?? new Date().toISOString(),
   };
 }
@@ -75,7 +78,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Check for existing session
     const session = getItem<Session>('ag_session');
     if (session && session.user) {
-      setUser(session.user);
+      const stored = session.user as Omit<User, 'password'> & { avatarColor?: string };
+      setUser({
+        ...stored,
+        avatar: normalizeAvatar(stored.avatar ?? stored.avatarColor),
+      });
     } else {
       if (pathname !== '/login') {
         router.push('/login');
@@ -105,7 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email: normalizedEmail,
         role: 'admin',
         team: 'Global',
-        avatarColor: '#22C55E',
+        avatar: DEFAULT_AVATAR,
         createdAt: new Date().toISOString(),
       };
       const session: Session = { user: adminUser, token: 'mock-admin-token' };
@@ -168,6 +175,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (foundUser) {
       const { password: _p, ...userWithoutPassword } = foundUser;
+      userWithoutPassword.avatar = normalizeAvatar(
+        userWithoutPassword.avatar ??
+          (foundUser as User & { avatarColor?: string }).avatarColor,
+      );
       const session: Session = { user: userWithoutPassword, token: 'mock-user-token' };
       setItem('ag_session', session);
       setUser(userWithoutPassword);

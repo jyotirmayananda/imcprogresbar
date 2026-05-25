@@ -7,6 +7,8 @@ import {
   Search, Calendar, ChevronDown, Package, IndianRupee, MapPin, 
   Users, BookOpen, Target, PhoneCall, Check, X, Clock, FileText
 } from "lucide-react";
+import { UserAvatar } from "@/components/UserAvatar";
+import { normalizeAvatar } from "@/lib/avatar";
 
 const translations = {
   en: {
@@ -211,12 +213,13 @@ export default function AdminReports() {
                   onClick={() => setExpandedReport(isExpanded ? null : report.id)}
                 >
                   <div className="flex items-center gap-4">
-                    <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-slate-900 font-bold shadow-sm"
-                      style={{ backgroundColor: u?.avatarColor || '#22C55E' }}
-                    >
-                      {u?.name.charAt(0).toUpperCase() || '?'}
-                    </div>
+                    <UserAvatar
+                      avatar={normalizeAvatar(
+                        u?.avatar ?? (u as { avatarColor?: string } | undefined)?.avatarColor,
+                      )}
+                      size="md"
+                      className="shadow-sm"
+                    />
                     <div>
                       <h3 className="font-heading font-bold text-lg text-slate-900">{u?.name || 'Unknown User'}</h3>
                       <p className="text-slate-500 text-sm">

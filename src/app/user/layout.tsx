@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Home, History, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { motion } from "framer-motion";
+import { UserAvatar } from "@/components/UserAvatar";
 
 export default function UserLayout({
   children,
@@ -28,12 +29,7 @@ export default function UserLayout({
       {/* Top Bar */}
       <header className="flex justify-between items-center p-4 border-b border-slate-200 glass">
         <div className="flex items-center gap-3">
-          <div 
-            className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold"
-            style={{ backgroundColor: user.avatarColor || '#22C55E' }}
-          >
-            {user.name.charAt(0).toUpperCase()}
-          </div>
+          <UserAvatar avatar={user.avatar} size="sm" />
           <div>
             <h2 className="font-heading font-bold">{user.name}</h2>
             <p className="text-xs text-slate-500">{user.team}</p>

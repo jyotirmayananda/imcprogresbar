@@ -36,7 +36,9 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json();
-    const { name, email, password, role, team, avatarColor } = body;
+    const { name, email, password, role, team, avatar } = body;
+    const avatarType =
+      avatar === "female" || avatar === "male" ? avatar : "male";
 
     if (!name || !email || !password) {
       return jsonResponse(
@@ -64,7 +66,7 @@ Deno.serve(async (req) => {
           name,
           role: role || "user",
           team: team || "Global",
-          avatarColor: avatarColor || "#22C55E",
+          avatar: avatarType,
         },
       });
 
@@ -84,7 +86,7 @@ Deno.serve(async (req) => {
         password: "auth_managed",
         role: role || "user",
         team: team || "Global",
-        avatar_color: avatarColor || "#22C55E",
+        avatar_color: avatarType,
         created_at: new Date().toISOString(),
       },
       { onConflict: "email" },
@@ -101,7 +103,7 @@ Deno.serve(async (req) => {
         name,
         role: role || "user",
         team: team || "Global",
-        avatarColor: avatarColor || "#22C55E",
+        avatar: avatarType,
       },
     });
   } catch (error: unknown) {

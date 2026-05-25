@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, DailyReport } from '@/lib/types';
+import { normalizeAvatar } from '@/lib/avatar';
 import { getItem, setItem } from '@/lib/localStorage';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 import { getAdminFunctionSecret } from '@/lib/adminSecret';
@@ -48,7 +49,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
               email: u.email,
               role: u.role as any,
               team: u.team,
-              avatarColor: u.avatar_color,
+              avatar: normalizeAvatar(u.avatar_color),
               createdAt: u.created_at
             }));
           }
@@ -116,7 +117,12 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           setItem('ag_reports', []);
         }
 
-        loadedUsers = localUsers;
+        loadedUsers = localUsers.map((u) => ({
+          ...u,
+          avatar: normalizeAvatar(
+            u.avatar ?? (u as User & { avatarColor?: string }).avatarColor,
+          ),
+        }));
         loadedReports = localReports;
       }
 
@@ -144,7 +150,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       email: loginEmail,
       role: user.role,
       team: user.team,
-      avatarColor: user.avatarColor,
+      avatar: user.avatar,
       createdAt: user.createdAt,
     };
 
@@ -166,7 +172,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
             password: loginPassword,
             role: user.role,
             team: user.team,
-            avatarColor: user.avatarColor,
+            avatar: user.avatar,
           },
           headers: { 'x-admin-secret': adminSecret },
         });
@@ -214,7 +220,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           email?: string;
           role?: string;
           team?: string;
-          avatarColor?: string;
+          avatar?: string;
         };
         localUser = {
           id: created.id,
@@ -222,7 +228,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           email: created.email ?? loginEmail,
           role: (created.role as User['role']) || user.role,
           team: created.team ?? user.team,
-          avatarColor: created.avatarColor ?? user.avatarColor,
+          avatar: normalizeAvatar(created.avatar ?? user.avatar),
           createdAt: user.createdAt,
         };
       } catch (err: unknown) {

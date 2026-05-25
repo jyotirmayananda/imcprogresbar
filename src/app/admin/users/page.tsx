@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useData } from "@/context/DataContext";
 import { motion } from "framer-motion";
 import { Plus, Users as UsersIcon, Trash2, Eye, EyeOff, Copy, Check } from "lucide-react";
+import { AvatarPicker } from "@/components/AvatarPicker";
+import { UserAvatar } from "@/components/UserAvatar";
+import { DEFAULT_AVATAR } from "@/lib/avatar";
 
 export default function AdminUsers() {
   const { users, addUser, deleteUser } = useData();
@@ -23,7 +26,7 @@ export default function AdminUsers() {
     email: "",
     password: "",
     team: "",
-    avatarColor: "#22C55E",
+    avatar: DEFAULT_AVATAR,
   });
 
   const copyText = async (label: string, text: string) => {
@@ -45,7 +48,7 @@ export default function AdminUsers() {
       password: formData.password,
       role: "user",
       team: formData.team,
-      avatarColor: formData.avatarColor,
+      avatar: formData.avatar,
       createdAt: new Date().toISOString(),
     });
 
@@ -61,11 +64,9 @@ export default function AdminUsers() {
       email: result.loginEmail,
       password: result.loginPassword,
     });
-    setFormData({ name: "", email: "", password: "", team: "", avatarColor: "#22C55E" });
+    setFormData({ name: "", email: "", password: "", team: "", avatar: DEFAULT_AVATAR });
     setIsAdding(false);
   };
-
-  const colors = ["#22C55E", "#00F5D4", "#FF6B6B", "#FCA311", "#4D908E", "#9D4EDD"];
 
   return (
     <div className="max-w-5xl mx-auto pb-12">
@@ -200,18 +201,11 @@ export default function AdminUsers() {
               />
             </div>
             <div className="flex flex-col gap-2 md:col-span-2 mt-2">
-              <label className="text-sm text-slate-600">Avatar Color</label>
-              <div className="flex gap-3">
-                {colors.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, avatarColor: color })}
-                    className={`w-8 h-8 rounded-full transition-all ${formData.avatarColor === color ? "ring-2 ring-white scale-110" : "opacity-70 hover:opacity-100"}`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
+              <label className="text-sm text-slate-600">Avatar</label>
+              <AvatarPicker
+                value={formData.avatar}
+                onChange={(avatar) => setFormData({ ...formData, avatar })}
+              />
             </div>
             {formError && (
               <p className="md:col-span-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg p-3">
@@ -241,12 +235,7 @@ export default function AdminUsers() {
               className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all flex flex-col gap-4"
             >
               <div className="flex justify-between items-start">
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center text-slate-900 font-bold text-xl"
-                  style={{ backgroundColor: u.avatarColor || "#22C55E" }}
-                >
-                  {u.name.charAt(0).toUpperCase()}
-                </div>
+                <UserAvatar avatar={u.avatar} size="lg" />
                 <button
                   onClick={() => deleteUser(u.id)}
                   className="text-red-400 hover:bg-red-400/10 p-2 rounded-lg transition-colors"
